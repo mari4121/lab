@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables here if needed
+        MY_ENV_VAR = 'some_value'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the repository
+                git 'https://github.com/your-repo/your-project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Run build commands (e.g., for a Node.js project)
+                    sh 'npm install' // or any build command relevant to your project
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    // Run tests
+                    sh 'npm test' // or any test command
+                }
+            }
+        }
+
+        stage('Deploy') {a
+            steps {
+                script {
+                    // Deploy the application
+                    sh './deploy.sh' // Replace with your actual deployment script/command
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            // Actions to perform if the pipeline succeeds
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            // Actions to perform if the pipeline fails
+            echo 'Pipeline failed!'
+        }
+        always {
+            // Actions to always perform (e.g., cleanup)
+            echo 'Cleaning up...'
+        }
+    }
+}
+
